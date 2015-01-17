@@ -21,7 +21,8 @@ params.r = 1;
 params.k = 10;
 
 ControlBounds = [-Inf Inf];
-initState = [params.k; 4];
+initState = [params.k; 4]; % The initial Effort value is free to be optimized by the solver
+                           % The value of 4 serves as an initial guess only
 
 % Construct Problem
 prob = EngineeringProblem(params, ControlBounds);
@@ -30,7 +31,7 @@ prob = EngineeringProblem(params, ControlBounds);
 
 % solve the problem
 soln = single_shooting(prob, initState, tspan, nControlPts, ...
-                       'FreeInitStates', 2, ...
+                       'FreeInitStates', 2, ... % Index of Effort state which has no fixed initial condition
                        'FreeStateBounds', [0 Inf]);
 
 %% Plot the results
