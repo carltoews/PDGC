@@ -9,7 +9,7 @@ classdef EconomicProblem < OCProblem
       q
       c1
       c2
-      r
+      r % allowed to be a constant OR function of time
       k
       
       % Let solver know that this is a maximization problem (flips the sign on
@@ -38,7 +38,12 @@ classdef EconomicProblem < OCProblem
          k = obj.k;
          p = obj.p;
          q = obj.q;
-         r = obj.r;
+         
+         if isa(obj.r, 'function_handle')
+             r = obj.r(t);
+         else
+             r = obj.r;
+         end
          
          value = [-E.*N.*q-N.*r.*(N./k-1.0);exp(-delta.*t).*(E.*c1+E.^2.*c2-E.*N.*p.*q)];
       end
@@ -52,7 +57,12 @@ classdef EconomicProblem < OCProblem
          k = obj.k;
          p = obj.p;
          q = obj.q;
-         r = obj.r;
+         
+         if isa(obj.r, 'function_handle')
+             r = obj.r(t);
+         else
+             r = obj.r;
+         end
          
          t2 = 1.0./k;
          value = [-v1.*(E.*q+r.*(N.*t2-1.0)+N.*r.*t2)-E.*p.*q.*v2.*exp(-delta.*t);0.0];

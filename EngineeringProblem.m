@@ -8,7 +8,7 @@ classdef EngineeringProblem
       q
       c1
       c3
-      r
+      r % allowed to be a constant OR a function of time
       k
       
       % Let solver know that this is a maximization problem (flips the sign on
@@ -38,7 +38,12 @@ classdef EngineeringProblem
          k = obj.k;
          p = obj.p;
          q = obj.q;
-         r = obj.r;
+         
+         if isa(obj.r, 'function_handle')
+             r = obj.r(t);
+         else
+             r = obj.r;
+         end
          
          value  = [-E.*N.*q-N.*r.*(N./k-1.0);u;exp(-delta.*t).*(E.*c1+c3.*u.^2-E.*N.*p.*q)];
       end
@@ -54,7 +59,12 @@ classdef EngineeringProblem
          k = obj.k;
          p = obj.p;
          q = obj.q;
-         r = obj.r;
+         
+         if isa(obj.r, 'function_handle')
+             r = obj.r(t);
+         else
+             r = obj.r;
+         end
          
          t2 = 1.0./k;
          t3 = exp(-delta.*t);

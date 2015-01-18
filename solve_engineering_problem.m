@@ -17,7 +17,7 @@ params.p = 1;
 params.q = .5;
 params.c1 = .1;
 params.c3 = 1;
-params.r = 1;
+params.r = @(t) 1 - .7*cos(2*pi*t);
 params.k = 10;
 
 ControlBounds = [-Inf Inf];
